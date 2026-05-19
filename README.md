@@ -22,7 +22,7 @@ Agrega la dependencia en tu `pubspec.yaml` apuntando al repositorio de GitHub:
 dependencies:
   rick_and_morty_kit:
     git:
-      url: https://github.com/JuanGiraldo04/rick_and_morty_kit.git
+      url: https://github.com/JuanGiraldo04/rick-and-morty-kit.git
 ```
 
 Luego ejecuta:
