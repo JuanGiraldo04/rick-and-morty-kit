@@ -1,0 +1,15 @@
+name: rick_and_morty_kit
+description: A Dart package for consuming the Rick and Morty API with built-in error handling.
+version: 0.1.0
+homepage: https://github.com/JuanGiraldo04/explorador-contenido-remoto-flutter.git
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  dio: ^5.9.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: ^6.0.0
