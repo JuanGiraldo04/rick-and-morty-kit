@@ -82,7 +82,7 @@ class _CharactersPageState extends State<CharactersPage> {
     _load();
   }
 
-  void _load() => setState(() {
+  Future<void> _load() async => setState(() {
     _future = _client.characters.getAll();
   });
 
@@ -90,36 +90,41 @@ class _CharactersPageState extends State<CharactersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Personajes'), centerTitle: true),
-      body: FutureBuilder<ApiResult<CharacterPage>>(
-        future: _future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return switch (snapshot.data) {
-            ApiSuccess(:final data) => ListView.builder(
-              itemCount: data.characters.length,
-              itemBuilder: (context, index) {
-                final c = data.characters[index];
-                return ListTile(
-                  leading: CircleAvatar(backgroundImage: NetworkImage(c.image)),
-                  title: Text(c.name),
-                  subtitle: Text(c.species),
-                  trailing: Text(switch (c.status) {
-                    CharacterStatus.alive => '🟢',
-                    CharacterStatus.dead => '🔴',
-                    CharacterStatus.unknown => '⚪',
-                  }),
-                );
-              },
-            ),
-            ApiError(:final failure) => _ErrorView(
-              message: failure.userMessage,
-              onRetry: _load,
-            ),
-            _ => const SizedBox.shrink(),
-          };
-        },
+      body: RefreshIndicator(
+        onRefresh: _load,
+        child: FutureBuilder<ApiResult<CharacterPage>>(
+          future: _future,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return switch (snapshot.data) {
+              ApiSuccess(:final data) => ListView.builder(
+                itemCount: data.characters.length,
+                itemBuilder: (context, index) {
+                  final c = data.characters[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(c.image),
+                    ),
+                    title: Text(c.name),
+                    subtitle: Text(c.species),
+                    trailing: Text(switch (c.status) {
+                      CharacterStatus.alive => '🟢',
+                      CharacterStatus.dead => '🔴',
+                      CharacterStatus.unknown => '⚪',
+                    }),
+                  );
+                },
+              ),
+              ApiError(:final failure) => _ErrorView(
+                message: failure.userMessage,
+                onRetry: _load,
+              ),
+              _ => const SizedBox.shrink(),
+            };
+          },
+        ),
       ),
     );
   }
@@ -143,7 +148,7 @@ class _EpisodesPageState extends State<EpisodesPage> {
     _load();
   }
 
-  void _load() => setState(() {
+  Future<void> _load() async => setState(() {
     _future = _client.episodes.getAll();
   });
 
@@ -151,32 +156,35 @@ class _EpisodesPageState extends State<EpisodesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Episodios'), centerTitle: true),
-      body: FutureBuilder<ApiResult<EpisodePage>>(
-        future: _future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return switch (snapshot.data) {
-            ApiSuccess(:final data) => ListView.builder(
-              itemCount: data.episodes.length,
-              itemBuilder: (context, index) {
-                final e = data.episodes[index];
-                return ListTile(
-                  leading: CircleAvatar(child: Text(e.code.split('E').last)),
-                  title: Text(e.name),
-                  subtitle: Text('${e.code} · ${e.airDate}'),
-                  trailing: Text('${e.characterCount} pers.'),
-                );
-              },
-            ),
-            ApiError(:final failure) => _ErrorView(
-              message: failure.userMessage,
-              onRetry: _load,
-            ),
-            _ => const SizedBox.shrink(),
-          };
-        },
+      body: RefreshIndicator(
+        onRefresh: _load,
+        child: FutureBuilder<ApiResult<EpisodePage>>(
+          future: _future,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return switch (snapshot.data) {
+              ApiSuccess(:final data) => ListView.builder(
+                itemCount: data.episodes.length,
+                itemBuilder: (context, index) {
+                  final e = data.episodes[index];
+                  return ListTile(
+                    leading: CircleAvatar(child: Text(e.code.split('E').last)),
+                    title: Text(e.name),
+                    subtitle: Text('${e.code} · ${e.airDate}'),
+                    trailing: Text('${e.characterCount} pers.'),
+                  );
+                },
+              ),
+              ApiError(:final failure) => _ErrorView(
+                message: failure.userMessage,
+                onRetry: _load,
+              ),
+              _ => const SizedBox.shrink(),
+            };
+          },
+        ),
       ),
     );
   }
@@ -200,7 +208,7 @@ class _LocationsPageState extends State<LocationsPage> {
     _load();
   }
 
-  void _load() => setState(() {
+  Future<void> _load() async => setState(() {
     _future = _client.locations.getAll();
   });
 
@@ -208,32 +216,35 @@ class _LocationsPageState extends State<LocationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Locaciones'), centerTitle: true),
-      body: FutureBuilder<ApiResult<LocationPage>>(
-        future: _future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return switch (snapshot.data) {
-            ApiSuccess(:final data) => ListView.builder(
-              itemCount: data.locations.length,
-              itemBuilder: (context, index) {
-                final l = data.locations[index];
-                return ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.location_on)),
-                  title: Text(l.name),
-                  subtitle: Text('${l.type} · ${l.dimension}'),
-                  trailing: Text('${l.residentCount} hab.'),
-                );
-              },
-            ),
-            ApiError(:final failure) => _ErrorView(
-              message: failure.userMessage,
-              onRetry: _load,
-            ),
-            _ => const SizedBox.shrink(),
-          };
-        },
+      body: RefreshIndicator(
+        onRefresh: _load,
+        child: FutureBuilder<ApiResult<LocationPage>>(
+          future: _future,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return switch (snapshot.data) {
+              ApiSuccess(:final data) => ListView.builder(
+                itemCount: data.locations.length,
+                itemBuilder: (context, index) {
+                  final l = data.locations[index];
+                  return ListTile(
+                    leading: const CircleAvatar(child: Icon(Icons.location_on)),
+                    title: Text(l.name),
+                    subtitle: Text('${l.type} · ${l.dimension}'),
+                    trailing: Text('${l.residentCount} hab.'),
+                  );
+                },
+              ),
+              ApiError(:final failure) => _ErrorView(
+                message: failure.userMessage,
+                onRetry: _load,
+              ),
+              _ => const SizedBox.shrink(),
+            };
+          },
+        ),
       ),
     );
   }

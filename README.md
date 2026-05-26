@@ -3,6 +3,10 @@
 Paquete Dart para consumir la [Rick and Morty API](https://rickandmortyapi.com) con manejo de errores integrado, modelos tipados y soporte de paginación.
 
 ---
+## DEMO
+
+https://www.loom.com/share/02e7585edef64dbfbd1d7209675916f0
+---
 
 ## Características
 
