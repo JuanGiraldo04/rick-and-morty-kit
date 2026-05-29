@@ -174,9 +174,11 @@ packages:
   rick_and_morty_kit:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: cc62b88a8f1d6b443ed279e12ca21f443cb7387b
+      url: "https://github.com/JuanGiraldo04/rick-and-morty-kit.git"
+    source: git
     version: "0.1.0"
   sky_engine:
     dependency: transitive

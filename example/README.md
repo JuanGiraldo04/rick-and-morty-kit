@@ -1,17 +1,47 @@
-# example
+# rick_and_morty_kit — Example
 
-A new Flutter project.
+App de ejemplo que demuestra el funcionamiento del paquete [`rick_and_morty_kit`](../).
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Qué demuestra
 
-A few resources to get you started if this is your first Flutter project:
+- Instanciar `RickAndMortyClient` y consumir los tres endpoints disponibles
+- Manejo de estados: carga, éxito y error con reintento
+- Búsqueda de personajes por nombre
+- Navegación al detalle de un personaje
+- Refresco con pull-to-refresh
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Cómo ejecutar
+
+```bash
+cd example
+flutter pub get
+flutter run
+```
+
+No requiere configuración adicional. El paquete apunta al directorio padre con `path: ../`.
+
+---
+
+## Estructura
+
+```
+lib/
+├── main.dart                    # App + navegación principal
+├── pages/
+│   ├── characters_page.dart     # Listado y búsqueda de personajes
+│   ├── character_detail_page.dart
+│   ├── episodes_page.dart
+│   └── locations_page.dart
+└── widgets/
+    └── error_view.dart          # Widget compartido de error + retry
+```
+
+---
+
+## Nota
+
+Esta app usa únicamente `FutureBuilder` y `setState`. No tiene gestor de estado ni arquitectura adicional, ya que su único propósito es mostrar cómo se consume el paquete con el mínimo de código posible.

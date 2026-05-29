@@ -5,7 +5,7 @@ Paquete Dart para consumir la [Rick and Morty API](https://rickandmortyapi.com) 
 ---
 ## DEMO
 
-https://www.loom.com/share/02e7585edef64dbfbd1d7209675916f0
+https://www.loom.com/share/6e6c4db30ca04f9590d1302bd8f512cf
 ---
 
 ## Características
